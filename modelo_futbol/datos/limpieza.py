@@ -13,7 +13,9 @@ class LimpiadorDatos():
     def __init__(self):
         pass
 
-    # PUNTO DE ENTRADA:
+    # ==========================================================
+    # PUNTO DE ENTRADA
+    # ==========================================================
     def ejecutar(self):
         # Ejecuta el proceso de limpieza para todos los archivos en RAW.
         logger.info("Iniciando el proceso de limpieza de datos.")
@@ -65,7 +67,7 @@ class LimpiadorDatos():
             if col not in df.columns:
                 raise ValueError(f"Columna faltante: {col}")
             
-        df["fecha"] = pd.to_datetime(df["Date"], dayfirst= True, errors= "coarce")      # 
+        df["fecha"] = pd.to_datetime(df["Date"], dayfirst= True, errors= "coerce")      # 
         df = df.dropna(subset= ["fecha"])
 
         df = df.rename(columns = {
@@ -88,6 +90,6 @@ class LimpiadorDatos():
         """ Giardar el DataFrame limpio en la carpeta PROCESSED. Mantiene el mismo nombre del archivo original """
         DIR_PROCESSED.mkdir(parents=True, exist_ok=True)                                # 
 
-        nueva_ruta = DIR_PROCESSED / ruta_original
+        nueva_ruta = DIR_PROCESSED / ruta_original.name
 
         df.to_csv(nueva_ruta, index=False)
